@@ -10,8 +10,8 @@ const { Title } = Typography;
 
 const items = [
   'ethereum',
-  'bitcoin',
   'tron',
+  'bitcoin',
   'cosmos',
   'solana',
   'aptos',

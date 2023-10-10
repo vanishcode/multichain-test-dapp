@@ -2,22 +2,40 @@ import Wrapper from '@/components/Wrapper';
 import { Button, Form, Input, notification, Typography } from 'antd';
 import { useState } from 'react';
 
-export default function SignTransaction() {
-  const address = window.tronWeb.defaultAddress.base58;
+export default function SignTransactionUSDT() {
+  const hexFromAddress = window.tronWeb.defaultAddress.hex;
+  const hexToAddress = window.tronWeb.address.toHex(
+    'TGvyvtbrJDwDxSYy9LDUJWtP8XFncj2Xd7',
+  );
+  const hexUSDTContractAddress = window.tronWeb.address.toHex(
+    'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+  );
 
-  const [to, setTo] = useState<string>('TGvyvtbrJDwDxSYy9LDUJWtP8XFncj2Xd7');
-  const [amount, setAmount] = useState<number>(10000);
-  const [owner, setOwner] = useState<string>(address);
+  const [to, setTo] = useState<string>(hexToAddress);
+  const [owner, setOwner] = useState<string>(hexFromAddress);
+  const [amount, setAmount] = useState<number>(100);
+  const [feeLimit, setFeeLimit] = useState<number>(100000000);
 
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const transaction = await window.tronWeb.transactionBuilder.sendTrx(
-        to,
-        amount,
-        owner,
-      );
+      const { transaction } =
+        await window.tronWeb.transactionBuilder.triggerSmartContract(
+          hexUSDTContractAddress,
+          'transfer(address,uint256)',
+          {
+            feeLimit,
+          },
+          [
+            {
+              type: 'address',
+              value: to,
+            },
+            { type: 'uint256', value: amount },
+          ],
+          owner,
+        );
       const result = await window.tronWeb.trx.signTransaction(transaction);
       setResult(JSON.stringify(result, null, 2));
     } catch (error: Error | string | any) {
@@ -28,15 +46,16 @@ export default function SignTransaction() {
   };
 
   return (
-    <Wrapper name="signTransaction - Send Trx">
+    <Wrapper name="signTransaction - Send USDT">
       <Form
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ to, amount, owner }}
+        initialValues={{ to, amount, owner, feeLimit }}
         onValuesChange={(values) => {
           setTo(values.to);
-          setAmount(values.amount);
           setOwner(values.owner);
+          setAmount(values.amount);
+          setFeeLimit(values.feeLimit);
         }}
         autoComplete="off"
       >
@@ -45,6 +64,10 @@ export default function SignTransaction() {
         </Form.Item>
 
         <Form.Item label="amount" name="amount">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="feeLimit" name="feeLimit">
           <Input />
         </Form.Item>
 
