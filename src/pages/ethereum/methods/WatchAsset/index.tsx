@@ -9,8 +9,7 @@ export default function WatchAsset() {
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       symbol: 'USDT',
       decimals: 18,
-      image:
-        'https://static.coinall.ltd/cdn/wallet/logo/USDT-991ffed9-e495-4d1b-80c2-a4c5f96ce22d.png',
+      image: 'https://static.coinall.ltd/cdn/wallet/logo/USDT.png',
     },
   });
   const [result, setResult] = useState<any>('');

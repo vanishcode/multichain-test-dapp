@@ -1,5 +1,5 @@
 import Wrapper from '@/components/Wrapper';
-import { Button, Form, Input, notification, Typography } from 'antd';
+import { Alert, Button, Form, Input, notification, Space } from 'antd';
 import { useState } from 'react';
 
 export default function AddEthereumChain() {
@@ -31,7 +31,7 @@ export default function AddEthereumChain() {
   };
 
   return (
-    <Wrapper name="wallet_switchEthereumChain">
+    <Wrapper name="wallet_addEthereumChain">
       <Form
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -103,7 +103,11 @@ export default function AddEthereumChain() {
         </Form.Item>
       </Form>
 
-      <Typography.Paragraph>{result}</Typography.Paragraph>
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="success" />
+        </Space>
+      )}
     </Wrapper>
   );
 }

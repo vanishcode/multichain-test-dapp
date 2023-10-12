@@ -3,16 +3,15 @@ import { Button, Form, Input, notification, Typography } from 'antd';
 import { useState } from 'react';
 
 export default function SignTransactionUSDT() {
-  const hexFromAddress = window.tronWeb.defaultAddress.hex;
-  const hexToAddress = window.tronWeb.address.toHex(
-    'TGvyvtbrJDwDxSYy9LDUJWtP8XFncj2Xd7',
-  );
-  const hexUSDTContractAddress = window.tronWeb.address.toHex(
+  const fromAddress = window.tronWeb.defaultAddress.base58;
+  const toAddress = 'TGvyvtbrJDwDxSYy9LDUJWtP8XFncj2Xd7';
+
+  const USDTContractAddress = window.tronWeb.address.toHex(
     'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
   );
 
-  const [to, setTo] = useState<string>(hexToAddress);
-  const [owner, setOwner] = useState<string>(hexFromAddress);
+  const [to, setTo] = useState<string>(toAddress);
+  const [owner, setOwner] = useState<string>(fromAddress);
   const [amount, setAmount] = useState<number>(100);
   const [feeLimit, setFeeLimit] = useState<number>(100000000);
 
@@ -20,6 +19,12 @@ export default function SignTransactionUSDT() {
 
   const handleClick = async () => {
     try {
+      const hexUSDTContractAddress =
+        window.tronWeb.address.toHex(USDTContractAddress);
+      const hexToAddress = window.tronWeb.address.toHex(
+        'TGvyvtbrJDwDxSYy9LDUJWtP8XFncj2Xd7',
+      );
+      const hexFromAddress = window.tronWeb.defaultAddress.hex;
       const { transaction } =
         await window.tronWeb.transactionBuilder.triggerSmartContract(
           hexUSDTContractAddress,
@@ -30,13 +35,14 @@ export default function SignTransactionUSDT() {
           [
             {
               type: 'address',
-              value: to,
+              value: hexToAddress,
             },
             { type: 'uint256', value: amount },
           ],
-          owner,
+          hexFromAddress,
         );
-      const result = await window.tronWeb.trx.signTransaction(transaction);
+      const signed = await window.tronWeb.trx.signTransaction(transaction);
+      const result = await window.tronWeb.trx.sendRawTransaction(signed);
       setResult(JSON.stringify(result, null, 2));
     } catch (error: Error | string | any) {
       notification.error({
@@ -86,7 +92,7 @@ export default function SignTransactionUSDT() {
           xs: { offset: 0 },
         }}
       >
-        <Button onClick={handleClick}>Sign Transaction</Button>
+        <Button onClick={handleClick}>Send USDT</Button>
       </Form.Item>
 
       <Typography.Paragraph>{result}</Typography.Paragraph>
