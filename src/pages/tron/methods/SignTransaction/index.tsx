@@ -9,16 +9,29 @@ export default function SignTransaction() {
   const [amount, setAmount] = useState<number>(10000);
   const [owner, setOwner] = useState<string>(address);
 
+  const [signed, setSigned] = useState<any>({});
   const [result, setResult] = useState<any>('');
 
-  const handleClick = async () => {
+  const handleSign = async () => {
     try {
       const transaction = await window.tronWeb.transactionBuilder.sendTrx(
         to,
         amount,
         owner,
       );
-      const result = await window.tronWeb.trx.signTransaction(transaction);
+      const signed = await window.tronWeb.trx.signTransaction(transaction);
+      setSigned(signed);
+      setResult(JSON.stringify(signed, null, 2));
+    } catch (error: Error | string | any) {
+      notification.error({
+        message: error.message || error,
+      });
+    }
+  };
+
+  const handleSend = async () => {
+    try {
+      const result = await window.tronWeb.trx.sendRawTransaction(signed);
       setResult(JSON.stringify(result, null, 2));
     } catch (error: Error | string | any) {
       notification.error({
@@ -63,7 +76,20 @@ export default function SignTransaction() {
           xs: { offset: 0 },
         }}
       >
-        <Button onClick={handleClick}>Sign Transaction</Button>
+        <Button onClick={handleSign}>Sign Transaction</Button>
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          xxl: { offset: 8 },
+          xl: { offset: 8 },
+          lg: { offset: 8 },
+          md: { offset: 8 },
+          sm: { offset: 8 },
+          xs: { offset: 0 },
+        }}
+      >
+        <Button onClick={handleSend}>Send Trx</Button>
       </Form.Item>
 
       <Typography.Paragraph>{result}</Typography.Paragraph>

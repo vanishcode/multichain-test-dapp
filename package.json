@@ -11,11 +11,11 @@
     "test": "cross-env TS_NODE_TRANSPILE_ONLY=yes jest --passWithNoTests"
   },
   "dependencies": {
+    "@ant-design/pro-components": "^2.6.32",
     "ahooks": "^3.7.8",
     "antd": "^5.9.4",
     "reset-css": "^5.0.2",
-    "umi": "^4.0.83",
-    "web3": "^4.1.2"
+    "umi": "^4.0.83"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5",
