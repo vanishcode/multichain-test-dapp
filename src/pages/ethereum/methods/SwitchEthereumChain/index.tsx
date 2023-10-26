@@ -1,5 +1,5 @@
 import Wrapper from '@/components/Wrapper';
-import { Button, Form, Input, notification, Typography } from 'antd';
+import { Alert, Button, Form, Input, notification, Space } from 'antd';
 import { useState } from 'react';
 
 export default function SwitchEthereumChain() {
@@ -50,7 +50,12 @@ export default function SwitchEthereumChain() {
           <Button onClick={handleClick}>Switch Ethereum Chain</Button>
         </Form.Item>
       </Form>
-      <Typography.Paragraph>result: {result}</Typography.Paragraph>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
     </Wrapper>
   );
 }

@@ -1,5 +1,5 @@
 import Wrapper from '@/components/Wrapper';
-import { Button, notification, Typography } from 'antd';
+import { Alert, Button, notification, Space } from 'antd';
 import { useState } from 'react';
 
 export default function BlockNumber() {
@@ -22,7 +22,12 @@ export default function BlockNumber() {
   return (
     <Wrapper name="eth_blockNumber">
       <Button onClick={handleClick}>Block Number</Button>
-      <Typography.Paragraph>{result}</Typography.Paragraph>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
     </Wrapper>
   );
 }

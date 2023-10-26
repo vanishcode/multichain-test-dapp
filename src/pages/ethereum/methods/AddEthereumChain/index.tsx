@@ -105,7 +105,7 @@ export default function AddEthereumChain() {
 
       {result && (
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Alert message={result} type="success" />
+          <Alert message={result} type="info" />
         </Space>
       )}
     </Wrapper>

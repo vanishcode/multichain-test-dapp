@@ -1,5 +1,5 @@
 import Wrapper from '@/components/Wrapper';
-import { Button, notification, Typography } from 'antd';
+import { Alert, Button, notification, Space } from 'antd';
 import { useState } from 'react';
 
 export default function ChainId() {
@@ -22,7 +22,12 @@ export default function ChainId() {
   return (
     <Wrapper name="eth_chainId">
       <Button onClick={handleClick}>Chain Id</Button>
-      <Typography.Paragraph>{result}</Typography.Paragraph>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
     </Wrapper>
   );
 }

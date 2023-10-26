@@ -1,5 +1,5 @@
 import Wrapper from '@/components/Wrapper';
-import { Button, Form, Input, notification, Typography } from 'antd';
+import { Alert, Button, Form, Input, notification, Space } from 'antd';
 import { useState } from 'react';
 
 export default function WatchAsset() {
@@ -88,7 +88,11 @@ export default function WatchAsset() {
         </Form.Item>
       </Form>
 
-      <Typography.Paragraph>{result}</Typography.Paragraph>
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
     </Wrapper>
   );
 }
