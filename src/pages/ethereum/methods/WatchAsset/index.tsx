@@ -6,16 +6,20 @@ export default function WatchAsset() {
   const [params, setParams] = useState<any>({
     type: 'ERC20',
     options: {
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      symbol: 'USDT',
+      address: '0x6982508145454ce325ddbe47a25d4ec3d2311933',
+      symbol: 'PEPE',
       decimals: 18,
-      image: 'https://static.coinall.ltd/cdn/wallet/logo/USDT.png',
+      image: 'https://static.coinall.ltd/cdn/wallet/logo/PEPE-20230814.png',
     },
   });
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: '0x1' }],
+      });
       const result = await window.ethereum.request({
         method: 'wallet_watchAsset',
         params,
