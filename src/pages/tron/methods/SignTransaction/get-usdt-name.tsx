@@ -53,8 +53,10 @@ export default function SignTransactionUSDT() {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ contract }}
-        onValuesChange={(values) => {
-          setContractAddress(values.contract);
+        onValuesChange={({ contract }) => {
+          if (contract) {
+            setContractAddress(contract);
+          }
         }}
         autoComplete="off"
       >

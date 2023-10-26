@@ -49,10 +49,16 @@ export default function Approve() {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ contractAddress, dAppAddress, amount }}
-        onValuesChange={(values) => {
-          setContractAddress(values.contractAddress);
-          setDAppAddress(values.dAppAddress);
-          setAmount(values.amount);
+        onValuesChange={({ contractAddress, dAppAddress, amount }) => {
+          if (contractAddress) {
+            setContractAddress(contractAddress);
+          }
+          if (dAppAddress) {
+            setDAppAddress(dAppAddress);
+          }
+          if (amount) {
+            setAmount(amount);
+          }
         }}
         autoComplete="off"
       >

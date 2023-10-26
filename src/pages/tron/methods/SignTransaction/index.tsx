@@ -46,10 +46,16 @@ export default function SignTransaction() {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ to, amount, owner }}
-        onValuesChange={(values) => {
-          setTo(values.to);
-          setAmount(values.amount);
-          setOwner(values.owner);
+        onValuesChange={({ to, owner, amount }) => {
+          if (to) {
+            setTo(to);
+          }
+          if (owner) {
+            setOwner(owner);
+          }
+          if (amount) {
+            setAmount(amount);
+          }
         }}
         autoComplete="off"
       >

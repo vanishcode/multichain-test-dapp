@@ -19,6 +19,10 @@ export default function Approve() {
       const hexFromAddress = window.tronWeb.defaultAddress.hex;
       const hexDAppAddress = window.tronWeb.address.toHex(dAppAddress);
 
+      console.log('hexContractAddress', hexContractAddress);
+      console.log('hexFromAddress', hexFromAddress);
+      console.log('hexDAppAddress', hexDAppAddress);
+
       const { transaction } =
         await window.tronWeb.transactionBuilder.triggerSmartContract(
           hexContractAddress,
@@ -28,7 +32,7 @@ export default function Approve() {
           },
           [
             { type: 'address', value: hexDAppAddress },
-            { type: 'uint256', value: amount },
+            { type: 'uint256', value: Number(amount) },
           ],
           hexFromAddress,
         );
@@ -48,10 +52,16 @@ export default function Approve() {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ contractAddress, dAppAddress, amount }}
-        onValuesChange={(values) => {
-          setContractAddress(values.contractAddress);
-          setDAppAddress(values.dAppAddress);
-          setAmount(values.amount);
+        onValuesChange={({ contractAddress, dAppAddress, amount }) => {
+          if (contractAddress) {
+            setContractAddress(contractAddress);
+          }
+          if (dAppAddress) {
+            setDAppAddress(dAppAddress);
+          }
+          if (amount) {
+            setAmount(amount);
+          }
         }}
         autoComplete="off"
       >

@@ -57,11 +57,19 @@ export default function SignTransactionUSDT() {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         initialValues={{ to, amount, owner, feeLimit }}
-        onValuesChange={(values) => {
-          setTo(values.to);
-          setOwner(values.owner);
-          setAmount(values.amount);
-          setFeeLimit(values.feeLimit);
+        onValuesChange={({ to, amount, owner, feeLimit }) => {
+          if (to) {
+            setTo(to);
+          }
+          if (amount) {
+            setAmount(amount);
+          }
+          if (owner) {
+            setOwner(owner);
+          }
+          if (feeLimit) {
+            setFeeLimit(feeLimit);
+          }
         }}
         autoComplete="off"
       >
