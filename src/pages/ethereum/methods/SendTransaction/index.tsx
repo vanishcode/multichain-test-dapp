@@ -1,26 +1,25 @@
-import Wrapper from '@/components/Wrapper';
-import { useMount } from 'ahooks';
-import { Button } from 'antd';
+import { Alert, Button, Form, Input, Space } from 'antd';
 import { useState } from 'react';
 
+import Wrapper from '@/components/Wrapper';
+
 export default function SendTransaction() {
-  const [address, setAddress] = useState<string>('');
+  const [signParams, setSignParams] = useState<Record<string, any>>({
+    chainId: window.okxwallet.chainId,
+    from: window.okxwallet.selectedAddress,
+    to: window.okxwallet.selectedAddress,
+    value: '0x5af3107a4000',
+    gasPrice: '0x6fc23ac00',
+    gas: '0x5208',
+    data: '',
+  });
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const params = [
-        {
-          from: address,
-          to: address,
-          value: '0x5af3107a4000',
-          gasPrice: '0x6fc23ac00',
-          gas: '0x5208',
-        },
-      ];
       const result = await window.ethereum.request({
         method: 'eth_sendTransaction',
-        params,
+        params: [signParams],
       });
       setResult(result);
     } catch (error: Error | any) {
@@ -28,25 +27,66 @@ export default function SendTransaction() {
     }
   };
 
-  useMount(() => {
-    const getAddress = async () => {
-      try {
-        const account = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setAddress(account[0]);
-      } catch (error: Error | any) {
-        setResult(error.message);
-      }
-    };
-    getAddress();
-  });
-
   return (
     <Wrapper name="eth_sendTransaction">
-      <h1>SendTransaction</h1>
-      <Button onClick={handleClick}>Send Transaction</Button>
-      <p>result: {result}</p>
+      <Form
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={signParams}
+        onValuesChange={(values) => {
+          setSignParams(Object.assign({}, signParams, values));
+        }}
+        autoComplete="off"
+      >
+        <Form.Item label="chainId" name="chainId">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="from" name="from">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="to" name="to">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="value" name="value">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="gas" name="gas">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="gasPrice" name="gasPrice">
+          <Input />
+        </Form.Item>
+
+        <Form.Item label="data" name="data">
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            xxl: { offset: 8 },
+            xl: { offset: 8 },
+            lg: { offset: 8 },
+            md: { offset: 8 },
+            sm: { offset: 8 },
+            xs: { offset: 0 },
+          }}
+        >
+          <Button onClick={handleClick} block>
+            Send Transaction
+          </Button>
+        </Form.Item>
+      </Form>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
     </Wrapper>
   );
 }
