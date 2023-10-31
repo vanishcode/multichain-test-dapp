@@ -1,38 +1,73 @@
-import { Button } from 'antd';
+import { Alert, Button, Form, Input, notification, Space } from 'antd';
 import { useState } from 'react';
 
-import useCosmosChain from '@/hooks/useCosmosChain';
+import Wrapper from '@/components/Wrapper';
 
 export default function SignArbitrary() {
-  const [chainId, signer] = useCosmosChain();
+  const [chainId, setChainId] = useState<string>('cosmoshub-4');
   const [message, setMessage] = useState('Hello World');
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const signature = await window.keplr.signArbitrary(
+      const { bech32Address: signer } = await window.okxwallet.keplr.getKey(
+        chainId,
+      );
+      const signature = await window.okxwallet.keplr.signArbitrary(
         chainId,
         signer,
         message,
       );
       setResult(JSON.stringify(signature));
-    } catch (error: Error | any) {
-      setResult(error.message);
+    } catch (error: Error | string | any) {
+      notification.error({
+        message: error.message || error,
+      });
     }
   };
 
   return (
-    <div>
-      <h1>SignArbitrary</h1>
-      <input
-        type="text"
-        value={message}
-        onChange={(event) => {
-          setMessage(event.target.value);
+    <Wrapper name="SignArbitrary">
+      <Form
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ chainId, message }}
+        onValuesChange={({ chainId, message }) => {
+          if (chainId) {
+            setChainId(chainId);
+          }
+          if (message) {
+            setMessage(message);
+          }
         }}
-      />
-      <Button onClick={handleClick}>Sign Arbitrary</Button>
-      <p>result: {result}</p>
-    </div>
+        autoComplete="off"
+      >
+        <Form.Item label="chainId" name="chainId">
+          <Input />
+        </Form.Item>
+        <Form.Item label="message" name="message">
+          <Input />
+        </Form.Item>
+      </Form>
+
+      <Form.Item
+        wrapperCol={{
+          xxl: { offset: 8 },
+          xl: { offset: 8 },
+          lg: { offset: 8 },
+          md: { offset: 8 },
+          sm: { offset: 8 },
+          xs: { offset: 0 },
+        }}
+      >
+        <Button onClick={handleClick}>Sign Arbitrary</Button>
+      </Form.Item>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
+    </Wrapper>
   );
 }

@@ -11,11 +11,11 @@ const { Title } = Typography;
 const items = [
   'ethereum',
   'tron',
-  'bitcoin',
   'cosmos',
   'solana',
   'aptos',
   'sui',
+  'bitcoin',
   'starknet',
   'stacks',
 ].map((v) => {

@@ -1,18 +1,19 @@
-import SendTx from './methods/SendTx';
+import { Row } from 'antd';
+
 import SignAmino from './methods/SignAmino';
 import SignArbitrary from './methods/SignArbitrary';
-import SignDirect from './methods/SignDirect';
-import VerifyArbitrary from './methods/VerifyArbitrary';
+// import SignDirect from './methods/SignDirect';
+// import SendTx from './methods/SendTx';
+// import VerifyArbitrary from './methods/VerifyArbitrary';
 
 export default function Cosmos() {
   return (
-    <div>
-      <h1>Cosmos</h1>
+    <Row gutter={16}>
       <SignAmino />
-      <SignDirect />
       <SignArbitrary />
-      <VerifyArbitrary />
-      <SendTx />
-    </div>
+      {/* <SignDirect /> */}
+      {/* <VerifyArbitrary /> */}
+      {/* <SendTx /> */}
+    </Row>
   );
 }

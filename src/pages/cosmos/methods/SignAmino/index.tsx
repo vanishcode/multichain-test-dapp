@@ -1,15 +1,20 @@
-import useCosmosChain from '@/hooks/useCosmosChain';
-import { Button } from 'antd';
+import { Alert, Button, Form, Input, notification, Space } from 'antd';
+
+import Wrapper from '@/components/Wrapper';
 import { useState } from 'react';
 
-export default function SignAmino() {
-  const [chainId, signer] = useCosmosChain();
-  const [message, setMessage] = useState('Hello World');
+export default function SignArbitrary() {
+  const [chainId, setChainId] = useState<string>('pacific-1');
+  const [denom, setDenom] = useState('usei');
+
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const signature = await window.keplr.signAmino(
+      const { bech32Address: signer } = await window.okxwallet.keplr.getKey(
+        chainId,
+      );
+      const signature = await window.okxwallet.keplr.signAmino(
         chainId,
         signer,
         {
@@ -19,18 +24,29 @@ export default function SignAmino() {
             gas: '174651',
             amount: [
               {
-                amount: '43',
-                denom: 'uatom',
+                amount: '4300',
+                denom,
               },
             ],
           },
           memo: '',
           msgs: [
             {
-              type: 'sign/MsgSignData',
+              type: 'sei/poolmanager/swap-exact-amount-in',
               value: {
-                signer,
-                data: btoa(message),
+                routes: [
+                  {
+                    pool_id: '1',
+                    token_out_denom:
+                      'ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2',
+                  },
+                ],
+                sender: signer,
+                token_in: {
+                  amount: '10000',
+                  denom,
+                },
+                token_out_min_amount: '545',
               },
             },
           ],
@@ -39,23 +55,55 @@ export default function SignAmino() {
         { preferNoSetFee: true },
       );
       setResult(JSON.stringify(signature));
-    } catch (error: Error | any) {
-      setResult(error.message);
+    } catch (error: Error | string | any) {
+      notification.error({
+        message: error.message || error,
+      });
     }
   };
 
   return (
-    <div>
-      <h1>SignAmino</h1>
-      <input
-        type="text"
-        value={message}
-        onChange={(event) => {
-          setMessage(event.target.value);
+    <Wrapper name="SignAmino">
+      <Form
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ chainId, denom }}
+        onValuesChange={({ chainId, denom }) => {
+          if (chainId) {
+            setChainId(chainId);
+          }
+          if (denom) {
+            setDenom(denom);
+          }
         }}
-      />
-      <Button onClick={handleClick}>Sign Amino</Button>
-      <p>result: {result}</p>
-    </div>
+        autoComplete="off"
+      >
+        <Form.Item label="chainId" name="chainId">
+          <Input />
+        </Form.Item>
+        <Form.Item label="denom" name="denom">
+          <Input />
+        </Form.Item>
+      </Form>
+
+      <Form.Item
+        wrapperCol={{
+          xxl: { offset: 8 },
+          xl: { offset: 8 },
+          lg: { offset: 8 },
+          md: { offset: 8 },
+          sm: { offset: 8 },
+          xs: { offset: 0 },
+        }}
+      >
+        <Button onClick={handleClick}>Sign Amino</Button>
+      </Form.Item>
+
+      {result && (
+        <Space direction="vertical" style={{ width: '100%' }}>
+          <Alert message={result} type="info" />
+        </Space>
+      )}
+    </Wrapper>
   );
 }
