@@ -11,7 +11,8 @@ export default function SignArbitrary() {
     },
   };
   const [chainId, setChainId] = useState<string>('dydx-mainnet-1');
-  const [denom, setDenom] = useState('udydx');
+  const [denom, setDenom] = useState('adydx');
+  const [amount, setAmount] = useState('100000000000000000');
 
   const [result, setResult] = useState<any>('');
 
@@ -28,7 +29,7 @@ export default function SignArbitrary() {
             gas: '174651',
             amount: [
               {
-                amount: '4300',
+                amount,
                 denom,
               },
             ],
@@ -71,13 +72,16 @@ export default function SignArbitrary() {
       <Form
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ chainId, denom }}
-        onValuesChange={({ chainId, denom }) => {
+        initialValues={{ chainId, denom, amount }}
+        onValuesChange={({ chainId, denom, amount }) => {
           if (chainId) {
             setChainId(chainId);
           }
           if (denom) {
             setDenom(denom);
+          }
+          if (amount) {
+            setAmount(amount);
           }
         }}
         autoComplete="off"
@@ -86,6 +90,9 @@ export default function SignArbitrary() {
           <Input />
         </Form.Item>
         <Form.Item label="denom" name="denom">
+          <Input />
+        </Form.Item>
+        <Form.Item label="amount" name="amount">
           <Input />
         </Form.Item>
       </Form>
