@@ -23,8 +23,12 @@ export default function ChainId() {
     <Wrapper name="eth_chainId">
       <Button onClick={handleClick}>Chain Id</Button>
 
+      <br />
       {result && (
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space
+          direction="vertical"
+          style={{ width: '100%', paddingTop: '16px' }}
+        >
           <Alert message={result} type="info" />
         </Space>
       )}

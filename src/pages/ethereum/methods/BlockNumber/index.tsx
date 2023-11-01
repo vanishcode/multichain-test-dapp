@@ -24,7 +24,10 @@ export default function BlockNumber() {
       <Button onClick={handleClick}>Block Number</Button>
 
       {result && (
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space
+          direction="vertical"
+          style={{ width: '100%', paddingTop: '16px' }}
+        >
           <Alert message={result} type="info" />
         </Space>
       )}
