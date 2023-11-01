@@ -4,17 +4,21 @@ import Wrapper from '@/components/Wrapper';
 import { useState } from 'react';
 
 export default function SignArbitrary() {
-  const [chainId, setChainId] = useState<string>('pacific-1');
-  const [denom, setDenom] = useState('usei');
+  window.keplr.defaultOptions = {
+    sign: {
+      preferNoSetFee: true,
+      preferNoSetMemo: true,
+    },
+  };
+  const [chainId, setChainId] = useState<string>('dydx-mainnet-1');
+  const [denom, setDenom] = useState('udydx');
 
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const { bech32Address: signer } = await window.okxwallet.keplr.getKey(
-        chainId,
-      );
-      const signature = await window.okxwallet.keplr.signAmino(
+      const { bech32Address: signer } = await window.keplr.getKey(chainId);
+      const signature = await window.keplr.signAmino(
         chainId,
         signer,
         {

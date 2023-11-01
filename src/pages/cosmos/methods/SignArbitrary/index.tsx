@@ -4,16 +4,14 @@ import { useState } from 'react';
 import Wrapper from '@/components/Wrapper';
 
 export default function SignArbitrary() {
-  const [chainId, setChainId] = useState<string>('cosmoshub-4');
+  const [chainId, setChainId] = useState<string>('celestia');
   const [message, setMessage] = useState('Hello World');
   const [result, setResult] = useState<any>('');
 
   const handleClick = async () => {
     try {
-      const { bech32Address: signer } = await window.okxwallet.keplr.getKey(
-        chainId,
-      );
-      const signature = await window.okxwallet.keplr.signArbitrary(
+      const { bech32Address: signer } = await window.keplr.getKey(chainId);
+      const signature = await window.keplr.signArbitrary(
         chainId,
         signer,
         message,
