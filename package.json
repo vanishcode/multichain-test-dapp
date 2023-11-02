@@ -2,7 +2,7 @@
   "private": true,
   "author": "jinghao.wang <jinghao.wang@okg.com>",
   "scripts": {
-    "build": "umi build && zip -r dist.zip dist",
+    "build": "umi build",
     "dev": "umi dev",
     "postinstall": "umi setup",
     "prepare": "husky install",
