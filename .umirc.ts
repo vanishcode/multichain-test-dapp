@@ -21,4 +21,7 @@ export default defineConfig({
     { path: '/starknet', component: 'starknet' },
     { path: '/stacks', component: 'stacks' },
   ],
+  jsMinifierOptions: {
+    target: ['chrome100', 'es2020'],
+  },
 });
