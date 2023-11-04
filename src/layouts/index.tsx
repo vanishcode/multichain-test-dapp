@@ -1,9 +1,8 @@
+import '@suiet/wallet-kit/style.css';
 import { Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import 'reset-css';
 import { history, Outlet, useLocation } from 'umi';
-
-import useConnect from '@/hooks/useConnect';
 
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -26,7 +25,6 @@ const items = [
 });
 
 const Layouts: React.FC = () => {
-  useConnect();
   const location = useLocation();
   const route = location.pathname.split('/')[1];
 
