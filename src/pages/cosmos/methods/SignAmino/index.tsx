@@ -4,12 +4,6 @@ import Wrapper from '@/components/Wrapper';
 import { useState } from 'react';
 
 export default function SignArbitrary() {
-  window.keplr.defaultOptions = {
-    sign: {
-      preferNoSetFee: true,
-      preferNoSetMemo: true,
-    },
-  };
   const [chainId, setChainId] = useState<string>('dydx-mainnet-1');
   const [denom, setDenom] = useState('adydx');
   const [amount, setAmount] = useState('100000000000000000');
