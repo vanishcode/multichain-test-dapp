@@ -1,6 +1,6 @@
 import { Row } from 'antd';
 
-import { noWalletError } from '@/utils/error';
+import { noWalletError } from '@/utils/errors';
 import AddEthereumChain from './methods/AddEthereumChain';
 import BlockNumber from './methods/BlockNumber';
 import ChainId from './methods/ChainId';

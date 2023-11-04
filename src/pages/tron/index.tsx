@@ -1,6 +1,6 @@
 import { Row } from 'antd';
 
-import { noWalletError } from '@/utils/error';
+import { noWalletError } from '@/utils/errors';
 import SignMessage from './methods/SignMessage';
 import ApproveByMessage from './methods/SignMessage/approve';
 import Approve from './methods/SignTransaction/approve';
