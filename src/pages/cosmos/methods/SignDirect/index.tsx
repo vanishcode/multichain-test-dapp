@@ -66,11 +66,9 @@ export default function SignDirect() {
 
   const handleClick = async () => {
     try {
-      const { bech32Address: signer } = await window.okxwallet.keplr.getKey(
-        chainId,
-      );
+      const { bech32Address: signer } = await window.keplr.getKey(chainId);
       const [bodyBytes, authInfoBytes] = buildTx(signer, to, denom, amount);
-      const signature = await window.okxwallet.keplr.signDirect(
+      const signature = await window.keplr.signDirect(
         chainId,
         signer,
         {

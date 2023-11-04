@@ -1,7 +1,12 @@
+import Wrapper from '@/components/Wrapper';
+import { ConnectButton, WalletProvider } from '@suiet/wallet-kit';
+
 export default function VerifyArbitrary() {
   return (
-    <div>
-      <h1>VerifyArbitrary</h1>
-    </div>
+    <Wrapper name="ConnectButton">
+      <WalletProvider>
+        <ConnectButton />
+      </WalletProvider>
+    </Wrapper>
   );
 }

@@ -1,19 +1,46 @@
 import { Alert, Button, Form, Input, Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Wrapper from '@/components/Wrapper';
 
 export default function SendTransaction() {
+  const [form] = Form.useForm();
   const [signParams, setSignParams] = useState<Record<string, any>>({
-    chainId: window.okxwallet.chainId,
-    from: window.okxwallet.selectedAddress,
-    to: window.okxwallet.selectedAddress,
+    chainId: '0x1',
+    from: '0x1',
+    to: '0x1',
     value: '0x5af3107a4000',
     gasPrice: '0x6fc23ac00',
     gas: '0x5208',
     data: '',
   });
   const [result, setResult] = useState<any>('');
+
+  useEffect(() => {
+    async function init() {
+      const chainId = await window.ethereum.request({
+        method: 'eth_chainId',
+        params: [],
+      });
+
+      const accounts = await window.ethereum.request({
+        method: 'eth_accounts',
+        params: [],
+      });
+
+      const updated = {
+        chainId,
+        from: accounts[0],
+        to: accounts[0],
+      };
+      setSignParams({
+        ...signParams,
+        ...updated,
+      });
+      form.setFieldsValue(updated);
+    }
+    init();
+  }, []);
 
   const handleClick = async () => {
     try {
@@ -30,9 +57,10 @@ export default function SendTransaction() {
   return (
     <Wrapper name="eth_sendTransaction">
       <Form
+        form={form}
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={signParams}
+        initialValues={{ ...signParams }}
         onValuesChange={(values) => {
           setSignParams(Object.assign({}, signParams, values));
         }}

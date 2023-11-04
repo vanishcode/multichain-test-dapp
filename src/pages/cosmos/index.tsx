@@ -3,8 +3,8 @@ import { Row } from 'antd';
 import SignAmino from './methods/SignAmino';
 import SignArbitrary from './methods/SignArbitrary';
 import SignDirect from './methods/SignDirect';
+import VerifyArbitrary from './methods/VerifyArbitrary';
 // import SendTx from './methods/SendTx';
-// import VerifyArbitrary from './methods/VerifyArbitrary';
 
 export default function Cosmos() {
   return (
@@ -12,7 +12,7 @@ export default function Cosmos() {
       <SignAmino />
       <SignArbitrary />
       <SignDirect />
-      {/* <VerifyArbitrary /> */}
+      <VerifyArbitrary />
       {/* <SendTx /> */}
     </Row>
   );
