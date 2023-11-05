@@ -1,25 +1,30 @@
-import { Layout, Menu, Typography } from 'antd';
+import { Image, Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import 'reset-css';
 import { history, Outlet, useLocation } from 'umi';
 
+import { CHAINS, CHAIN_LOGOS } from './const';
+
 const { Header, Content, Footer } = Layout;
 const { Title } = Typography;
 
-const items = [
-  'ethereum',
-  'tron',
-  'cosmos',
-  'solana',
-  'aptos',
-  'sui',
-  'bitcoin',
-  'starknet',
-  'stacks',
-].map((v) => {
+const items = CHAINS.map((v) => {
   return {
     key: v,
     label: v,
+    icon: (
+      <Image
+        src={CHAIN_LOGOS[v]}
+        width={24}
+        preview={false}
+        wrapperStyle={{
+          marginRight: 6,
+        }}
+        style={{
+          verticalAlign: -6,
+        }}
+      />
+    ),
   };
 });
 
