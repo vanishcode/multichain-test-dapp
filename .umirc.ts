@@ -2,7 +2,7 @@ import { defineConfig } from 'umi';
 
 const title = 'multichain-test-dapp';
 
-const base = '/'; // process.env.NODE_ENV === 'production' ? `/assets/${title}/` : '/';
+const base = process.env.IN_BUILD === 'yes' ? `/assets/${title}/` : '/';
 
 export default defineConfig({
   base,

@@ -3,6 +3,7 @@
   "author": "jinghao.wang <jinghao.wang@okg.com>",
   "scripts": {
     "build": "umi build",
+    "build:in": "IN_BUILD=yes umi build && zip -r dist.zip dist",
     "dev": "umi dev",
     "postinstall": "umi setup",
     "prepare": "husky install",
