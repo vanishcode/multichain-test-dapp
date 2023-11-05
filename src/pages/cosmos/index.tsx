@@ -4,7 +4,7 @@ import { noWalletError } from '@/utils/errors';
 import SignAmino from './methods/SignAmino';
 import SignArbitrary from './methods/SignArbitrary';
 import SignDirect from './methods/SignDirect';
-import VerifyArbitrary from './methods/VerifyArbitrary';
+// import VerifyArbitrary from './methods/VerifyArbitrary';
 
 export default function Cosmos() {
   if (!window.keplr) {
@@ -25,7 +25,7 @@ export default function Cosmos() {
       <SignAmino />
       <SignArbitrary />
       <SignDirect />
-      <VerifyArbitrary />
+      {/* <VerifyArbitrary /> */}
       {/* <SendTx /> */}
     </Row>
   );

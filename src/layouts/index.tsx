@@ -1,4 +1,3 @@
-import '@suiet/wallet-kit/style.css';
 import { Layout, Menu, Typography } from 'antd';
 import React from 'react';
 import 'reset-css';
