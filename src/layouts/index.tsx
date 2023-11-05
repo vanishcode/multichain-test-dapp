@@ -1,4 +1,4 @@
-import { Image, Layout, Menu, Typography } from 'antd';
+import { Image, Layout, Menu, theme, Typography } from 'antd';
 import React from 'react';
 import 'reset-css';
 import { history, Outlet, useLocation } from 'umi';
@@ -32,23 +32,32 @@ const Layouts: React.FC = () => {
   const location = useLocation();
   const route = location.pathname.split('/')[1];
 
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
     <Layout style={{ minWidth: '360px' }}>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
-        <Title
-          style={{ color: 'white', margin: '0 16px', minWidth: '180px' }}
-          level={5}
-        >
+      <Header
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: colorBgContainer,
+          borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
+        }}
+      >
+        <Title style={{ margin: '0 16px 0 0', minWidth: '180px' }} level={5}>
           Multichain Test DApp
         </Title>
         <Menu
-          theme="dark"
+          theme="light"
           mode="horizontal"
           defaultSelectedKeys={[route || 'ethereum']}
           items={items}
           onClick={(item) => {
             history.push(`/${item.key}`);
           }}
+          style={{ minWidth: 0, flex: 'auto' }}
         />
       </Header>
       <Content style={{ background: 'white', padding: '16px' }}>
