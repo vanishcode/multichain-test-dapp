@@ -1,9 +1,18 @@
+import { notification } from 'antd';
 import { noWalletError } from './errors';
 
 export const ethereumConnect = async () => {
   if (!window.ethereum || !window.okxwallet) {
     noWalletError();
     return null;
+  }
+
+  if (!window.ethereum) {
+    notification.error({
+      message: 'window.ethereum not found',
+      description: 'Use window.okxwallet to replace window.ethereum',
+    });
+    window.ethereum = window.okxwallet;
   }
 
   const accounts = await window.ethereum.request({
