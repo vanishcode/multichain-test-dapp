@@ -1,16 +1,16 @@
 import { WalletKitProvider } from '@mysten/wallet-kit';
-import { Row } from 'antd';
 
+import Wrapper from '@/components/Wrapper';
 import Connect from './methods/Connect';
 import SignMessage from './methods/SignMessage';
 
 export default function Sui() {
   return (
     <WalletKitProvider>
-      <Row gutter={16}>
+      <Wrapper>
         <Connect />
         <SignMessage />
-      </Row>
+      </Wrapper>
     </WalletKitProvider>
   );
 }

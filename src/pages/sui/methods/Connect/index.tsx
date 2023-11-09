@@ -1,10 +1,10 @@
-import Wrapper from '@/components/Wrapper';
+import Card from '@/components/Card';
 import { ConnectButton } from '@mysten/wallet-kit';
 
 export default function Connect() {
   return (
-    <Wrapper name="Connect">
+    <Card title="Connect">
       <ConnectButton />
-    </Wrapper>
+    </Card>
   );
 }
