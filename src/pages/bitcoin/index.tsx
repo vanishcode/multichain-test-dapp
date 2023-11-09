@@ -1,10 +1,10 @@
-import { Row } from 'antd';
+import Wrapper from '@/components/Wrapper';
 import SignMessage from './methods/SignMessage';
 
-export default function Page() {
+export default function Bitcoin() {
   return (
-    <Row gutter={16}>
+    <Wrapper>
       <SignMessage />
-    </Row>
+    </Wrapper>
   );
 }
