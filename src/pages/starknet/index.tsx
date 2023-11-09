@@ -1,7 +1,10 @@
-export default function Starknet() {
+import Wrapper from '@/components/Wrapper';
+import SignMessage from './methods/SignMessage';
+
+export default function Solana() {
   return (
-    <div>
-      <h1>Starknet</h1>
-    </div>
+    <Wrapper>
+      <SignMessage />
+    </Wrapper>
   );
 }
