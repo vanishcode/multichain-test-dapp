@@ -24,4 +24,5 @@ export default defineConfig({
   jsMinifierOptions: {
     target: ['chrome100', 'es2020'],
   },
+  favicons: ['https://static.okx.com/cdn/wallet/logo/okt.png'],
 });

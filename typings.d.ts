@@ -14,7 +14,7 @@ declare global {
     stacks: any;
     starknet: any;
     starknet_okxwallet: any;
-    agentX: any;
+    argentX: any;
     petra: any;
   }
 }

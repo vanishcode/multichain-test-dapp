@@ -2,7 +2,7 @@ import { notification } from 'antd';
 import { noWalletError } from './errors';
 
 export const ethereumConnect = async () => {
-  if (!window.ethereum || !window.okxwallet) {
+  if (!window.ethereum && !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -22,7 +22,7 @@ export const ethereumConnect = async () => {
 };
 
 export const keplrConnect = async () => {
-  if (!window.keplr || !window.okxwallet) {
+  if (!window.keplr && !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -38,7 +38,7 @@ export const keplrConnect = async () => {
 };
 
 export const tronConnect = async () => {
-  if (!window.tronWeb || !window.okxwallet) {
+  if (!window.tronWeb && !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -48,7 +48,7 @@ export const tronConnect = async () => {
 };
 
 export const solanaConnect = async () => {
-  if (!window.phantom || !window.solana || !window.okxwallet) {
+  if ((!window.phantom && !window.solana) || !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -56,7 +56,7 @@ export const solanaConnect = async () => {
 };
 
 export const aptosConnect = async () => {
-  if (!window.petra || !window.aptos || !window.okxwallet) {
+  if ((!window.petra && !window.aptos) || !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -64,7 +64,7 @@ export const aptosConnect = async () => {
 };
 
 export const stacksConnect = async () => {
-  if (!window.stacks || !window.okxwallet) {
+  if (!window.stacks && !window.okxwallet) {
     noWalletError();
     return null;
   }
@@ -72,7 +72,7 @@ export const stacksConnect = async () => {
 };
 
 export const starknetConnect = async () => {
-  if (!window.okxwallet || !window.starknet_okxwallet) {
+  if ((!window.argentX && !window.starknet_okxwallet) || !window.okxwallet) {
     noWalletError();
     return null;
   }
