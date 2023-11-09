@@ -9,9 +9,12 @@ declare global {
     aptos: any;
     sui: any;
     solana: any;
+    phantom: any;
     bitcoin: any;
     stacks: any;
     starknet: any;
+    starknet_okxwallet: any;
     agentX: any;
+    petra: any;
   }
 }
