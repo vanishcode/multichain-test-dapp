@@ -37,7 +37,7 @@ const Layouts: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout style={{ minWidth: '360px' }}>
+    <Layout style={{ minWidth: '320px' }}>
       <Header
         style={{
           display: 'flex',
@@ -60,7 +60,14 @@ const Layouts: React.FC = () => {
           style={{ minWidth: 0, flex: 'auto' }}
         />
       </Header>
-      <Content style={{ background: 'white', padding: '16px' }}>
+      <Content
+        style={{
+          background: 'white',
+          padding: '16px',
+          minWidth: '320px',
+          minHeight: '800px',
+        }}
+      >
         <Outlet />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
