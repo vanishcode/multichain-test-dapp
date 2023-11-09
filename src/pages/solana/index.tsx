@@ -1,7 +1,7 @@
-export default function Page() {
+export default function Solana() {
   return (
     <div>
-      <h1>Page index</h1>
+      <h1>Solana</h1>
     </div>
   );
 }

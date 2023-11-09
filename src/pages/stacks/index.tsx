@@ -1,7 +1,7 @@
-export default function Page() {
+export default function Stacks() {
   return (
     <div>
-      <h1>Page index</h1>
+      <h1>Stacks</h1>
     </div>
   );
 }

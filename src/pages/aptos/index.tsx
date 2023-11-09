@@ -1,7 +1,7 @@
-export default function Page() {
+export default function Aptos() {
   return (
     <div>
-      <h1>Page aptos</h1>
+      <h1>Aptos</h1>
     </div>
   );
 }

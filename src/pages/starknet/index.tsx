@@ -1,7 +1,7 @@
-export default function Page() {
+export default function Starknet() {
   return (
     <div>
-      <h1>Page index</h1>
+      <h1>Starknet</h1>
     </div>
   );
 }
