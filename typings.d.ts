@@ -16,5 +16,7 @@ declare global {
     starknet_okxwallet: any;
     argentX: any;
     petra: any;
+    signArbitraryResult: any;
+    signDirectResult: any;
   }
 }
