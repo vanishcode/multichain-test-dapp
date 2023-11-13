@@ -3,7 +3,7 @@ import { keplrConnect } from '@/utils/connect';
 
 export default function SignArbitrary() {
   const value = {
-    chainId: 'celestia',
+    chainId: 'injective-1',
     message: 'Hello World',
   };
   const handleClick = async ({ chainId, message }: any) => {
@@ -13,7 +13,9 @@ export default function SignArbitrary() {
       chainId,
       signer,
       message,
+      { preferNoSetFee: true },
     );
+    window.signArbitraryResult = signature;
     return signature;
   };
 
