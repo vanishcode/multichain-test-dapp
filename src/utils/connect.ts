@@ -27,14 +27,13 @@ export const keplrConnect = async () => {
     return null;
   }
 
-  window.keplr.defaultOptions = {
-    sign: {
-      preferNoSetFee: true,
-      preferNoSetMemo: true,
-    },
-  };
-
-  await window.keplr.connect();
+  try {
+    await window.keplr.enable();
+    await window.keplr.connect();
+  } catch (error) {
+    noWalletError();
+    return null;
+  }
 };
 
 export const tronConnect = async () => {
