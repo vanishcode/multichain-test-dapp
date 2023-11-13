@@ -1,3 +1,6 @@
+import Item from '@/components/Item';
+import { keplrConnect } from '@/utils/connect';
+import { useMount } from 'ahooks';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
 import {
   AuthInfo,
@@ -5,19 +8,47 @@ import {
   SignerInfo,
   TxBody,
 } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-
-import Item from '@/components/Item';
 import Long from 'long';
+import { useState } from 'react';
+
+import { MsgSend } from '../../utils/tx';
 
 export default function SignDirect() {
   const value = {
-    chainId: 'cosmoshub-4',
-    denom: 'uatom',
-    amount: '4399',
-    to: 'cosmos12nqz20dzne725py9j6n7wtx3s9579c7mnet7s8',
-    accountNumber: '666',
-    sequence: '666',
+    coinId: 21500,
+    chainId: 'injective-1',
+    denom: 'inj',
+    amount: '1500000000000000',
+    to: 'inj1ywqe8057srngat8rtz95tkx0ffl2urarkegcc8',
   };
+
+  const [feeDenom, setFeeDenom] = useState('inj');
+  const [feeAmount, setFeeAmount] = useState('180000000000000');
+  const [gasLimit, setGasLimit] = useState('200000');
+  const [accountNumber, setAccountNumber] = useState('630104');
+  const [sequence, setSequence] = useState('279');
+
+  useMount(() => {
+    keplrConnect();
+
+    fetch(
+      `https://wallet.okex.org/v1/deposit/plugin/coin/${value.coinId}/address/${value.to}/signInfo`,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+
+        setAccountNumber(res.data.info.accountNumber);
+        setSequence(res.data.info.sequence);
+        setFeeDenom(res.data.info.feeDemon);
+        setFeeAmount(
+          res.data.info.feeAmount > '180000000000000'
+            ? res.data.info.feeAmount
+            : '180000000000000',
+        );
+        setGasLimit(res.data.info.gasLimit);
+      });
+  });
 
   const buildTx = (
     from: string,
@@ -30,20 +61,20 @@ export default function SignDirect() {
       TxBody.fromPartial({
         messages: [
           {
-            // @ts-ignore
-            '@type': '/cosmos.bank.v1beta1.MsgSend',
-
-            // @ts-ignore
-            from_address: from,
-
-            // @ts-ignore
-            to_address: to,
-
-            // @ts-ignore
-            amount: [{ denom, amount }],
+            typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+            value: MsgSend.encode({
+              fromAddress: from,
+              toAddress: to,
+              amount: [
+                {
+                  denom,
+                  amount,
+                },
+              ],
+            }).finish(),
           },
         ],
-        memo: '',
+        memo: 'sign direct',
       }),
     ).finish();
     const authInfoBytes = AuthInfo.encode({
@@ -54,7 +85,7 @@ export default function SignDirect() {
           // However, the estimated gas would be slightly smaller because tx size doesn't include pub key.
           modeInfo: {
             single: {
-              mode: SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+              mode: SignMode.SIGN_MODE_DIRECT,
             },
             multi: undefined,
           },
@@ -62,43 +93,34 @@ export default function SignDirect() {
         }),
       ],
       fee: Fee.fromPartial({
-        amount: [{ denom, amount }],
+        amount: [{ denom: feeDenom, amount: feeAmount }],
+        gasLimit: BigInt(gasLimit),
       }),
     }).finish();
     return [bodyBytes, authInfoBytes];
   };
 
-  const handleClick = async ({
-    chainId,
-    to,
-    denom,
-    amount,
-    accountNumber,
-    sequence,
-  }: any) => {
-    const { bech32Address: signer } = await window.keplr.getKey(chainId);
+  const handleClick = async ({ chainId, to, denom, amount }: any) => {
+    const { bech32Address: from } = await window.keplr.getKey(chainId);
     const [bodyBytes, authInfoBytes] = buildTx(
-      signer,
+      from,
       to,
       denom,
       amount,
       sequence,
     );
-    const signature = await window.keplr.signDirect(
+    const signature = await window.keplr.signDirect(chainId, from, {
+      /** SignDoc bodyBytes */
+      bodyBytes,
+      /** SignDoc authInfoBytes */
+      authInfoBytes,
+      /** SignDoc chainId */
       chainId,
-      signer,
-      {
-        /** SignDoc bodyBytes */
-        bodyBytes,
-        /** SignDoc authInfoBytes */
-        authInfoBytes,
-        /** SignDoc chainId */
-        chainId,
-        /** SignDoc accountNumber */
-        accountNumber: Long.fromString(accountNumber),
-      },
-      { preferNoSetFee: true },
-    );
+      /** SignDoc accountNumber */
+      accountNumber: Long.fromString(accountNumber),
+    });
+    // for test
+    window.signDirectResult = signature;
     return signature;
   };
 
