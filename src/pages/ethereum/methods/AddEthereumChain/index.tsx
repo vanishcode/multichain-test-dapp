@@ -20,10 +20,6 @@ export default function AddEthereumChain() {
     rpcUrls,
     blockExplorerUrls,
   }: any) => {
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId }],
-    });
     const result = await window.ethereum.request({
       method: 'wallet_addEthereumChain',
       params: [
