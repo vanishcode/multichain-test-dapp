@@ -18,5 +18,7 @@ declare global {
     petra: any;
     signArbitraryResult: any;
     signDirectResult: any;
+    tronSignMessageV1Message: any;
+    tronSignMessageV1Result: any;
   }
 }
